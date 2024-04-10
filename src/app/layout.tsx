@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/Context/UserContext";
 import Navbar from "@/components/Navbar/Navbar";
+import { ArticleProvider } from "@/Context/ArticleContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <main className="flex flex-col h-screen">
           <AuthProvider>
+            <ArticleProvider>
             <Navbar/>
             {children}
+            </ArticleProvider>
           </AuthProvider>
         </main>
         <Toaster />

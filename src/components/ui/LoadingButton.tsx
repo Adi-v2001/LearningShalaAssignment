@@ -3,7 +3,7 @@ const LoadingButton = ({ text }: { text: string }) => {
       <div className="flex justify-center">
         <button
           type="button"
-          className="flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-white w-full"
+          className="flex items-center justify-center rounded-lg bg-slate-600 px-4 py-2 text-white w-full"
           disabled
         >
           <svg

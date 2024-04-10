@@ -44,7 +44,7 @@ const Login = () => {
             <Input
               placeholder="Email"
               type="email"
-              className="border-white text-white placeholder:text-white"
+              className="border-slate-600 bg-white"
               {...register("email", { required: "Email is required" })}
             />
             <p className="font-semibold text-xs text-red-600">
@@ -55,9 +55,9 @@ const Login = () => {
             <Input
               placeholder="Password"
               type="password"
-              className="border-white text-white placeholder:text-white"
+              className="border-slate-600 bg-white"
               {...register("password", {
-                required: "Password is required",
+                required: "Password is required"
               })}
             />
             <p className="font-semibold text-xs text-red-600">
@@ -68,7 +68,7 @@ const Login = () => {
             <LoadingButton text="Logging in" />
           ) : (
             <Button
-              className="bg-blue-800 hover:bg-blue-600 w-full border border-white"
+              className="bg-slate-800 hover:bg-slate-700 w-full border border-white"
               type="submit"
             >
               Login

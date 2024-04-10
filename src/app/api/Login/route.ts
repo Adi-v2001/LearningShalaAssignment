@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
             name: user.name,
             email: user.email
         }, String(process.env.SECRET_KEY));
-        return NextResponse.json({statusText: 'Authentication successful', token, userName: user.name}, {status: 200})
+        return NextResponse.json({statusText: 'Authentication successful', token, user: user}, {status: 200})
     } else {
         return NextResponse.json({statusText: 'Incorrect password'}, {status: 401})
     }

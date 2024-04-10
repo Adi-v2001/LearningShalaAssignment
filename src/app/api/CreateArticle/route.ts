@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const {title, description, category, image, userId} = body
-
-    if(!title || !description || !category || !image || !userId){
-        return NextResponse.json({statusText: 'Data missing'}, {status: 401})
+    const {title, description, articleType, imageUrl, userId} = body
+    if(!title || !description || !articleType || !imageUrl || !userId){
+      return NextResponse.json({statusText: 'Data missing'}, {status: 400})
     }
 
     const article = await prisma.article.create({
@@ -19,8 +18,8 @@ export async function POST(request: NextRequest) {
             },
             title,
             description,
-            category,
-            image
+            category: articleType,
+            image: imageUrl
         }
     })
 
