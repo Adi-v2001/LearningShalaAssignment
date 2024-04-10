@@ -58,25 +58,27 @@ export function AuthProvider({
   
   const login = async (userData: { email: string; password: string }) => {
     setLoading(true)
-    const res = await axios.post(
-      '/api/Login',
-      userData
-    );
-    if (res.status === 200) {
-      localStorage.setItem("learningShalaJWT", res.data.token);
-      localStorage.setItem("learningShalaUserId", res.data.user.id);
-      setIsLoggedIn(true)
-      setUser(res.data.user)
-      toast({
-        title: res.data.statusText,
-        description: `Welcome back ${res.data.user.name}`
-      });
-      router.push("/dashboard");
-    } else {
-      toast({
-        title: res.data.statusText,
-        variant: "destructive",
-      });
+    try {
+      const res = await axios.post(
+        '/api/Login',
+        userData
+      );
+      if (res.status === 200) {
+        localStorage.setItem("learningShalaJWT", res.data.token);
+        localStorage.setItem("learningShalaUserId", res.data.user.id);
+        setIsLoggedIn(true)
+        setUser(res.data.user)
+        toast({
+          title: res.data.statusText,
+          description: `Welcome back ${res.data.user.name}`
+        });
+        router.push("/dashboard");
+      }
+    } catch (error: any) {
+        toast({
+          title: error.response.data.statusText,
+          variant: "destructive",
+        });
     }
     setLoading(false)
   };
