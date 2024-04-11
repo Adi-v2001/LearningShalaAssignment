@@ -19,7 +19,10 @@ const page = ({ params }: { params: { articleId: string } }) => {
           />
           <div className="p-6 space-y-8">
             <div className="space-y-6">
-              <h1 className="font-bold text-3xl">{article.title}</h1>
+              <div className="flex items-center justify-between">
+                <h1 className="font-bold text-3xl">{article.title}</h1>
+                <h1 className="mt-auto text-blue-700 font-semibold">{article.category}</h1>
+              </div>
               <div className="flex items-center space-x-3">
                 <div className="border border-slate-300 rounded-full h-12 w-12 bg-slate-800 flex items-center justify-center">
                   <PersonIcon width={25} height={25} color="white"/>
