@@ -14,6 +14,7 @@ import Spinner from "../ui/Spinner";
 const ArticleTable = () => {
   const { articles, page, hasMore, setPage, loading } = useArticle();
   const router = useRouter();
+
   return (
     <>
       <Table>

@@ -29,6 +29,18 @@ const Filters = () => {
   const [open, setOpen] = useState(false)
   const { user } = useAuth();
   const onSubmit: any = async (data: any) => {
+
+    const image = data.uploadImage[0]
+    //Checking file type
+    if(image.type !== 'image/jpeg' && image.type !== 'image/jpg' && image.type !== 'image/png' && image.type !== 'image/avif'){
+      toast({
+        title: 'Only image files are allowed',
+        description: 'Please upload a jpeg, jpg, png or avif',
+        variant: 'destructive'
+      })
+      return;
+    }
+    //Checking description not null
     if (!data.description) {
       toast({
         title: "No description provided",
@@ -36,29 +48,54 @@ const Filters = () => {
       });
       return;
     }
-    const mutatedData = {
-      ...data,
-      userId: user?.id,
-    };
+
     try {
       setLoading(true);
-      const res = await axios.post("/api/CreateArticle", mutatedData);
-      if (res.status === 200) {
-        toast({
-          title: res.data.statusText,
-        });
-        refreshArticles()
-      } else {
-        toast({
-          title: res.data.statusText,
-          variant: "destructive",
-        });
+      const fileData = new FormData()
+      fileData.set('file', image)
+      //Uploading file to server
+      const response = await axios.post("/api/UploadFile", fileData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if(response.status === 200){
+        const mutatedData = {
+            ...data,
+            userId: user?.id,
+        };
+        delete mutatedData.uploadImage
+        mutatedData.imageUrl = response.data.path
+
+        try {
+          //Creating article with file path in imageUrl
+          const res = await axios.post("/api/CreateArticle", mutatedData);
+          if (res.status === 200) {
+            toast({
+              title: res.data.statusText,
+            });
+            refreshArticles()
+          } else {
+            toast({
+              title: res.data.statusText,
+              variant: "destructive",
+            });
+          }
+        } catch (err) {
+          console.log("An error occured while api call", err);
+        } finally {
+          setLoading(false);
+          setOpen(false)
+        }
       }
-    } catch (err) {
-      console.log("An error occured while api call", err);
+    } catch (err: any) {
+      toast({
+        title: err.response.data.statusText,
+        variant: 'destructive'
+      })
     } finally {
-      setLoading(false);
-      setOpen(false)
+      setLoading(false)
     }
   };
 

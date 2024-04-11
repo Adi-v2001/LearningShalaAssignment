@@ -2,21 +2,21 @@ import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import LoadingButton from "../ui/LoadingButton";
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from "@tinymce/tinymce-react";
 import { useRef } from "react";
 
 interface FormData {
   title: string;
   description: string;
-  imageUrl: string;
   articleType: string;
+  uploadImage: File;
 }
 const AddArticleForm = ({
   onSubmit,
   loading,
 }: {
-  onSubmit: any
-  loading: boolean
+  onSubmit: any;
+  loading: boolean;
 }) => {
   const {
     register,
@@ -33,27 +33,16 @@ const AddArticleForm = ({
         <Input
           placeholder="Title"
           className="border-slate-500"
-          {...register("title", { required: "Title is required",
-          maxLength: {
-            value: 50,
-            message: 'Maximum 50 characters are allowed!'
-          } })}
-        />
-        <p className="font-semibold text-xs text-red-600">
-          {errors.title?.message}
-        </p>
-      </div>
-      <div className="space-y-2">
-        <Input
-          placeholder="Image URL"
-          className="border-slate-500"
-          {...register("imageUrl", {
-            required: "Image URL is required",
-            pattern: {value: /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[\w.-]+(?:\.[\w.-]+)+(?:\/\S*)?$/, message: "Not a valid image url"}
+          {...register("title", {
+            required: "Title is required",
+            maxLength: {
+              value: 50,
+              message: "Maximum 50 characters are allowed!",
+            },
           })}
         />
         <p className="font-semibold text-xs text-red-600">
-          {errors.imageUrl?.message}
+          {errors.title?.message}
         </p>
       </div>
       <div className="space-y-2">
@@ -75,41 +64,44 @@ const AddArticleForm = ({
           {errors.articleType?.message}
         </p>
       </div>
-      {/* <div className="space-y-2">
-        <Textarea
-          placeholder="Description"
-          className="border-slate-500 h-44"
-          {...register("description", {
-            required: "Description is required",
-          })}
+      <div className="space-y-2">
+      <Input
+        type="file"
+        placeholder="Add an image to you article"
+        {...register('uploadImage', {
+          required: 'Image upload is required'
+        })}
+        className="border border-slate-500"
         />
         <p className="font-semibold text-xs text-red-600">
-          {errors.description?.message}
+          {errors.uploadImage?.message}
         </p>
-      </div> */}
+      </div>
       <div className="border border-slate-500 rounded-lg">
-      <Editor
-         onInit={(evt, editor) => editorRef.current = editor}
-         apiKey="y7kqlz07oky243cycde7utdko7lr0smj9vs59uhuszppn9uo"
-         initialValue="Start writing you article!"
-         init={{
-           height: 300,
-           menubar: false,
-           plugins: [
-             'advlist autolink lists link image charmap print preview anchor',
-             'searchreplace visualblocks code fullscreen',
-             'insertdatetime media table paste code help wordcount'
-           ],
-           toolbar: 'undo redo | formatselect | ' +
-           'bold italic backcolor | alignleft aligncenter ' +
-           'alignright alignjustify | bullist numlist outdent indent | ' +
-           'removeformat | help',
-           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-         }}
-         onEditorChange={(content) => {
-          setValue('description', content)
-         }}
-       />
+        <Editor
+          onInit={(evt, editor) => (editorRef.current = editor)}
+          apiKey="y7kqlz07oky243cycde7utdko7lr0smj9vs59uhuszppn9uo"
+          initialValue="Start writing you article!"
+          init={{
+            height: 300,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | " +
+              "bold italic backcolor | alignleft aligncenter " +
+              "alignright alignjustify | bullist numlist outdent indent | " +
+              "removeformat | help",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          }}
+          onEditorChange={(content) => {
+            setValue("description", content);
+          }}
+        />
       </div>
       {loading ? (
         <LoadingButton text="Creating" />
