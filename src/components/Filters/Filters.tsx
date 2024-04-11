@@ -112,7 +112,7 @@ const uniqueUsers = Array.from(new Set(users.map(user => user.id)))
     <div className="flex space-x-5">
       <div className="relative">
         <Input
-          className="pl-8"
+          className="pl-8 border border-gray-400"
           placeholder="Search articles..."
           onChange={(val) => setSearch(val.target.value)}
         />
