@@ -80,7 +80,7 @@ const AddArticleForm = ({
       <div className="border border-slate-500 rounded-lg">
         <Editor
           onInit={(evt, editor) => (editorRef.current = editor)}
-          apiKey="y7kqlz07oky243cycde7utdko7lr0smj9vs59uhuszppn9uo"
+          apiKey=""
           initialValue="Start writing you article!"
           init={{
             height: 300,
